@@ -1,11 +1,13 @@
 <%= form_with(model: job, local: true) do |form| %>
   <% if job.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(job.errors.count, "error") %> prohibited this job from being saved:</h2>
+      <b><%= pluralize(job.errors.count, "error") %> prohibited this job from being saved:</b>
 
-      <ul>
+      <ul class="list-group col-md-6 mb-2">
       <% job.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+        <li class="list-group-item list-group-item-danger list-group-item-action p-1 pl-3">
+          <strong><%= message %></strong>
+        </li>
       <% end %>
       </ul>
     </div>
@@ -15,9 +17,14 @@
       <%= form.label :duration %>
       <%= form.number_field :duration, value: 25, class: "form-control" %>
     </div>
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-3">
     <%= form.label :description %>
     <%= form.text_field :description, placeholder: "Define the job, briefly", class: "form-control" %>
+    </div>
+    <div class="form-group col-md-2">
+      <%= form.label :category %>
+      <%= form.select(:category_id, Category.all.collect { |c| [c.name, c.id] },
+                        { include_blank: "None" }, class: "form-control") %>
     </div>
   </div>
   <div class="actions">
